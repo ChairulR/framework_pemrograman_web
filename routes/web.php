@@ -15,8 +15,9 @@ Route::get('/user/{name?}', function ($name = 'Guest') {
 });
 
 Route::get('/users/{id}', function ($id) {
-    return 'ID Nigger: '.$id;
+    return 'ID: '.$id;
 });
+
 
 Route::get('/profile', function () {
     return 'Ini halaman profile';
