@@ -34,7 +34,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to My Laravel Application</h1>
+        <h1>Welcome to ADMIN Mr. President</h1>
         <p>
             <?php
             $greeting = "Hello, World!";
@@ -45,7 +45,7 @@
             <a href="contact">Contact</a>
         </p>
         <p>
-            Today's date: {{ date('Y-m-d H:i:s') }}
+            Today's date: {{ date('Y-m-d') }}
         </p>
     </div>
 </body>
