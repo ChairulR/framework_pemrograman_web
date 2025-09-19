@@ -23,4 +23,6 @@ Route::get('/rahasia', function () {
 
 Route::get('/product', [ProductController::class, 'index']);
 
+Route::get('/route_cont/{id}', [ProductController::class, 'show']);     
+
 require __DIR__.'/auth.php';
