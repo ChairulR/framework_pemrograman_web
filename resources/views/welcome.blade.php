@@ -42,8 +42,7 @@
             ?>
         </p>    
         <p>
-            <a href="contact">Contact</a>
-            <a href="login">login</a>
+            <a href="login">Login</a>
         </p>
         <p>
             Tanggal: {{ date('Y-m-d') }}
