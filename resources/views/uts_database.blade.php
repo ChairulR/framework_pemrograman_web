@@ -7,7 +7,7 @@
 @section('content')
     <h2>Menu uts database</h2>
     <p>Ini adalah halaman UTS Database</p>
-    <a href="/uts">Kembali ke Menu Utama</a>
+    <a href="{{ route('uts.index') }}">Kembali ke Menu Utama</a>
 @endsection
 
 @section('footer')

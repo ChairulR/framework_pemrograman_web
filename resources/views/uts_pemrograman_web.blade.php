@@ -7,7 +7,7 @@
 @section('content')
     <h2>Menu uts pemrograman web</h2>
     <p>Ini adalah halaman UTS Pemrograman Web</p>
-    <a href="/uts">Kembali ke Menu Utama</a>
+    <a href="{{ route('uts.index') }}">Kembali ke Menu Utama</a>
 @endsection
 
 @section('footer')

@@ -36,8 +36,7 @@ Route::get('/barang/{id}', function ($id) {
 
 // Route UTS dengan Controller
 Route::get('/uts', [App\Http\Controllers\UtsController::class, 'index'])->name('uts.index');
-Route::get('/uts/pemrograman-web', [App\Http\Controllers\UtsController::class, 'pemrogramanWeb'])->name('uts.pemweb');
-Route::get('/uts/database', [App\Http\Controllers\UtsController::class, 'database'])->name('uts.database');
-Route::post('/uts/submit', [App\Http\Controllers\UtsController::class, 'submitUts'])->name('uts.submit');
+Route::get('/uts/pemrograman-web', [App\Http\Controllers\UtsController::class, 'pemrogramanWeb'])->name('pemrogramanWeb');
+Route::get('/uts/database', [App\Http\Controllers\UtsController::class, 'database'])->name('database');
 
 require __DIR__.'/auth.php';

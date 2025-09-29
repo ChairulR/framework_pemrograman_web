@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 
 class UtsController extends Controller
 {
-    /**
-     * Menampilkan halaman utama UTS
-     */
     public function index()
     {
         $data = [
@@ -18,5 +15,15 @@ class UtsController extends Controller
         ];
         
         return view('uts_isi', $data);
+    }
+    
+    public function pemrogramanWeb()
+    {
+        return view('uts_pemrograman_web');
+    }
+    
+    public function database()
+    {
+        return view('uts_database');
     }
 }
