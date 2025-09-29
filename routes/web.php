@@ -33,7 +33,18 @@ Route::get('/barang/{id}', function ($id) {
     $isi_data = "" . $id;
     return view('barang', compact('isi_data'));
 });
+
+// Routes untuk UTS
 Route::get('/uts', function () {
     return view('uts_isi');
-});
+})->name('uts.main');
+
+Route::get('/uts/pemrograman-web', function () {
+    return view('uts_pemrograman_web');
+})->name('uts.pemrograman-web');
+
+Route::get('/uts/database', function () {
+    return view('uts_database');
+})->name('uts.database');
+
 require __DIR__.'/auth.php';
