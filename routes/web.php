@@ -33,4 +33,7 @@ Route::get('/barang/{id}', function ($id) {
     $isi_data = "" . $id;
     return view('barang', compact('isi_data'));
 });
+Route::get('/uts', function () {
+    return view('uts_isi');
+});
 require __DIR__.'/auth.php';
