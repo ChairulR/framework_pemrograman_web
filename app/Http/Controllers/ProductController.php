@@ -9,9 +9,9 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($angka)
     {
-        return view('manage.users.product');
+        return view('manage.users.product', compact('angka'));
     }
 
     /**

@@ -7,5 +7,6 @@
 </head>
 <body>
     <h1>product</h1>
+    <h1>Hasil perhitungan: {{ $hasil }}</h1>
 </body>
 </html>
