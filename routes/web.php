@@ -2,6 +2,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UtsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,9 +35,9 @@ Route::get('/barang/{id}', function ($id) {
     return view('barang', compact('isi_data'));
 });
 
-// Route UTS dengan Controller
-Route::get('/uts', [App\Http\Controllers\UtsController::class, 'index'])->name('uts.index');
-Route::get('/uts/pemrograman-web', [App\Http\Controllers\UtsController::class, 'pemrogramanWeb'])->name('pemrogramanWeb');
-Route::get('/uts/database', [App\Http\Controllers\UtsController::class, 'database'])->name('database');
+// Route UTS pakai Controller
+Route::get('/uts', [UtsController::class, 'index'])->name('uts.index');
+Route::get('/uts/pemrograman-web', [UtsController::class, 'pemrogramanWeb'])->name('pemrogramanWeb');
+Route::get('/uts/database', [UtsController::class, 'database'])->name('database');
 
 require __DIR__.'/auth.php';
