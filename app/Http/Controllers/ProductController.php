@@ -6,14 +6,29 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function checkOddEven($parameter)
+    {
+        // Tentukan ganjil atau genap
+        if ($parameter % 2 == 0) {
+            $pesan = "Nilai ini adalah genap";
+            $alertType = "success";
+        } else {
+            $pesan = "Nilai ini adalah ganjil";
+            $alertType = "warning";
+        }
+        
+        // Kirim data ke view
+        return view('produk', [
+            'pesan' => $pesan,
+            'alertType' => $alertType,
+            'nilai' => $parameter
+        ]);
+    }
+    
     /**
      * Display a listing of the resource.
      */
-    public function index($angka)
-    {
-        return view('manage.users.product', compact('angka'));
-    }
-
+    
     /**
      * Show the form for creating a new resource.
      */

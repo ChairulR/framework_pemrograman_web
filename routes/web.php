@@ -22,9 +22,11 @@ Route::get('/rahasia', function () {
     return 'ini halaman rahasia';
 })->middleware(['auth','verified','RoleCheck:admin,owner'])->name('rahasia');
 
-Route::get('/product', [ProductController::class, 'index']);
+Route::get('/produk/{parameter}', [ProductController::class, 'checkOddEven']);
 
-Route::get('/route_cont/{id}', [ProductController::class, 'show']);     
+Route::get('/product/{angka}', [ProductController::class, 'index']);
+
+Route::get('/product/detail/{id}', [ProductController::class, 'show']);     
 
 Route::get('/langganan', function () {
     return view('langganan');
