@@ -41,13 +41,41 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($angka = null)
+    public function index($angka)
     {
-        // If $angka is provided as a filter or not used, keep backward compatibility
-        // New behavior: list all products. Optional parameter ignored.
-        $products = Product::orderBy('id', 'desc')->paginate(15);
-
-        return view('products.index', compact('products'));
+        // Validasi dan konversi string ke integer
+        if (!is_numeric($angka)) {
+            $pesan = "Parameter '$angka' bukan angka valid";
+            $alertType = "danger";
+            return view('product', [
+                'angka' => $angka,
+                'nilai' => $angka,
+                'hasil' => 0,
+                'pesan' => $pesan,
+                'alertType' => $alertType
+            ]);
+        }
+        $angka = (int) $angka;
+        
+        // Hitung hasil (contoh: angka * 2)
+        $hasil = $angka * 2;
+        
+        // Tentukan ganjil atau genap
+        if ($angka % 2 == 0) {
+            $pesan = "Nilai $angka adalah genap";
+            $alertType = "success";
+        } else {
+            $pesan = "Nilai $angka adalah ganjil";
+            $alertType = "warning";
+        }
+        
+        return view('product', [
+            'angka' => $angka,
+            'nilai' => $angka,
+            'hasil' => $hasil,
+            'pesan' => $pesan,
+            'alertType' => $alertType
+        ]);
     }
     
     /**
@@ -84,8 +112,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
+        return view('barang', ['isi_data' => $id]);
     }
 
     /**
@@ -93,8 +120,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $product = Product::findOrFail($id);
-        return view('products.edit', compact('product'));
+        //
     }
 
     /**
@@ -102,20 +128,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $product = Product::findOrFail($id);
-
-        $validasi_data = $request->validate([
-            'product_name' => 'required|string|max:255',
-            'unit' => 'required|string|max:50',
-            'type' => 'required|string|max:50',
-            'information' => 'nullable|string',
-            'qty' => 'required|integer',
-            'producer' => 'required|string|max:255'
-        ]);
-
-        $product->update($validasi_data);
-
-        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
+        //
     }
 
     /**
@@ -123,9 +136,6 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
-
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+        //
     }
 }
