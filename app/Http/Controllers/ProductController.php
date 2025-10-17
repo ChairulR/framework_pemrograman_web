@@ -3,11 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
     public function checkOddEven($parameter)
     {
+        // Validasi dan konversi string ke integer
+        if (!is_numeric($parameter)) {
+            $pesan = "Parameter '$parameter' bukan angka valid";
+            $alertType = "danger";
+            return view('produk', [
+                'pesan' => $pesan,
+                'alertType' => $alertType,
+                'nilai' => $parameter
+            ]);
+        }
+        $parameter = (int) $parameter;
+        
         // Tentukan ganjil atau genap
         if ($parameter % 2 == 0) {
             $pesan = "Nilai ini adalah genap";
@@ -28,13 +41,21 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function index($angka = null)
+    {
+        // If $angka is provided as a filter or not used, keep backward compatibility
+        // New behavior: list all products. Optional parameter ignored.
+        $products = Product::orderBy('id', 'desc')->paginate(15);
+
+        return view('products.index', compact('products'));
+    }
     
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view("master-data.product-master.create-product");
     }
 
     /**
@@ -42,7 +63,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input data
+        $validasi_data = $request->validate([
+            'product_name' => 'required|string|max:255',
+            'unit' => 'required|string|max:50',
+            'type' => 'required|string|max:50',
+            'information' => 'nullable|string',
+            'qty' => 'required|integer',
+            'producer' => 'required|string|max:255'
+        ]);
+
+        // Proses simpan data kedalam database
+        Product::create($validasi_data);
+
+        return redirect()->back()->with('success', 'Product created successfully!');
     }
 
     /**
@@ -50,7 +84,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        return view('barang', ['isi_data' => $id]);
+        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -58,7 +93,8 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -66,7 +102,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $validasi_data = $request->validate([
+            'product_name' => 'required|string|max:255',
+            'unit' => 'required|string|max:50',
+            'type' => 'required|string|max:50',
+            'information' => 'nullable|string',
+            'qty' => 'required|integer',
+            'producer' => 'required|string|max:255'
+        ]);
+
+        $product->update($validasi_data);
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
     /**
@@ -74,6 +123,9 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
 }
