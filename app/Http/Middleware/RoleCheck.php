@@ -16,21 +16,12 @@ class RoleCheck
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        // If user is not authenticated, redirect to login
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        $user = Auth::user();
-
-        // Allow if any role matches
         foreach ($roles as $role) {
-            if ($user->role === $role) {
+            if (Auth::check() && Auth::user()->role === $role) {
                 return $next($request);
             }
-        }
-
-        // Authenticated but not authorized: return 403 Forbidden to avoid redirect loops
-        abort(403, 'You do not have permission to access this page.');
+        Auth::logout();     
+        return redirect()->route('login')->with('status', 'You do not have permission to access this page.');
+    }
     }
 }

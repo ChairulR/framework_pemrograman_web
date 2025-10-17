@@ -25,25 +25,11 @@ Route::get('/rahasia', function () {
 Route::get('/produk/{parameter}', [ProductController::class, 'checkOddEven']);
 
 Route::get('/product/detail/{id}', [ProductController::class, 'show']);
-
-// New resourceful routes for product management (named 'products.*')
-Route::prefix('products')->name('products.')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('index');
-    Route::get('/create', [ProductController::class, 'create'])->name('create')->middleware(['auth','verified']);
-    Route::post('/', [ProductController::class, 'store'])->name('store')->middleware(['auth','verified']);
-    Route::get('/{id}', [ProductController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit')->middleware(['auth','verified']);
-    Route::put('/{id}', [ProductController::class, 'update'])->name('update')->middleware(['auth','verified']);
-    Route::delete('/{id}', [ProductController::class, 'destroy'])->name('destroy')->middleware(['auth','verified']);
-});
-
-// Legacy/compat routes kept for backward compatibility
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/product/create', [ProductController::class, 'create'])->name('product-create');
     Route::post('/product', [ProductController::class, 'store'])->name('product-store');
 });
 
-// Old route pattern (kept): still forwards to controller but may be removed later
 Route::get('/product/{angka}', [ProductController::class, 'index']);
 
 Route::get('/langganan', function () {
