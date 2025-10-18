@@ -41,9 +41,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($angka)
+    public function index($angka = null)
     {
-        // Validasi dan konversi string ke integer
+        if ($angka === null) {
+            // Paginate products so numbering can be sequential in view
+            $data = Product::orderBy('id')->paginate(10);
+            return view('master-data.product-master.index-product', compact('data'));
+        }
+
         if (!is_numeric($angka)) {
             $pesan = "Parameter '$angka' bukan angka valid";
             $alertType = "danger";
@@ -55,11 +60,12 @@ class ProductController extends Controller
                 'alertType' => $alertType
             ]);
         }
+
         $angka = (int) $angka;
-        
+
         // Hitung hasil (contoh: angka * 2)
         $hasil = $angka * 2;
-        
+
         // Tentukan ganjil atau genap
         if ($angka % 2 == 0) {
             $pesan = "Nilai $angka adalah genap";
@@ -68,7 +74,7 @@ class ProductController extends Controller
             $pesan = "Nilai $angka adalah ganjil";
             $alertType = "warning";
         }
-        
+
         return view('product', [
             'angka' => $angka,
             'nilai' => $angka,
@@ -120,7 +126,8 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('master-data.product-master.edit-product', compact('product'));
     }
 
     /**
@@ -128,7 +135,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validasi_data = $request->validate([
+            'product_name' => 'required|string|max:255',
+            'unit' => 'required|string|max:50',
+            'type' => 'required|string|max:50',
+            'information' => 'nullable|string',
+            'qty' => 'required|integer',
+            'producer' => 'required|string|max:255'
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update($validasi_data);
+
+        return redirect()->route('product-index')->with('success', 'Product updated successfully!');
     }
 
     /**
@@ -136,6 +155,9 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return redirect()->route('product-index')->with('success', 'Product deleted successfully!');
     }
 }
